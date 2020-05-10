@@ -9,6 +9,11 @@
  *
  *     grep "^[^ ].*Using GCC" cppversion.cpp | sh -
  *
+ * NOTE
+ *
+ * This is compatible with SystemC (e.g., for use on EDAplayground.com) if you
+ * define the macro SYSTEMC at compile-time.
+ *
  * LICENSE
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +40,12 @@ void horizontal_seperator( void ) {
   std::cout << "\n" << std::string( 80, '#' ) << "\n" << std::endl;
 }
 
+#ifdef SYSTEMC
+#include <systemc>
+int sc_main( int argc, char* argv[] )
+#else
 int main( void )
+#endif
 {
   int exit_status = 0; // assume success
 
@@ -84,5 +94,7 @@ g++     -pedantic -Wall -o cppversion cppversion.cpp && ./cppversion ; echo Usin
 clang++ -pedantic -Wall -o cppversion cppversion.cpp && ./cppversion ; echo Using llvm
 clang++ -pedantic -Wall -o cppversion cppversion.cpp && ./cppversion ; echo Using clang
 clang++ -pedantic -Wall -o cppversion cppversion.cpp && ./cppversion ; echo Using clang++
+
+Note: add -DSYSTEMC if using with SystemC.
 
  */
