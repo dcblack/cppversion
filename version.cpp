@@ -40,7 +40,7 @@ void horizontal_seperator( void ) {
   std::cout << "\n" << std::string( 80, '#' ) << "\n" << std::endl;
 }
 
-#ifdef SYSTEMC
+#if defined(SYSTEMC) or defined(SYSTEMC_HOME)
 #include <systemc>
 int sc_main( int argc, char* argv[] )
 #else
@@ -51,35 +51,13 @@ int main( void )
 
   horizontal_seperator();
 
-#if defined(__clang__)
-  std::cout << "Compiled with Clang/LLVM version " << __clang_major__ << "." << __clang_minor__ << "." << __clang_patchlevel__ << std::endl;
+#include "cppversion.hpp"
+  std::cout << "Compiled with " << CPPVERSION_STREAM << std::endl;
 
-#elif defined(__ICC) || defined(__INTEL_COMPILER)
-  std::cout << "Compiled with Intel ICC/ICPC version " << __ICC << std::endl;
+  horizontal_seperator();
 
-#elif defined(__GNUC__) || defined(__GNUG__)
-  std::cout << "Compiled with GNU GCC/G++ version " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__ << std::endl;
-
-#elif defined(__HP_cc) || defined(__HP_aCC)
-  std::cout << "Compiled with Hewlett-Packard C/aC++ version " << __HP_cc << std::endl;
-
-#elif defined(__IBMC__) || defined(__IBMCPP__)
-  std::cout << "Compiled with IBM XL C/C++ version " << __IBMCPP__ << std::endl;
-
-#elif defined(_MSC_VER)
-  std::cout << "Compiled with Microsoft Visual Studio version " << _MSC_FULL_VER << std::endl;
-
-#elif defined(__PGI)
-  std::cout << "Compiled with Portland Group PGCC/PGCPP version " << __PGIC__ << "." << __PGIC_MINOR__ << "." << __PGIC_PATCHLEVEL__ << std::endl;
-
-#elif defined(__SUNPRO_C) || defined(__SUNPRO_CC)
-  std::cout << "Compiled with Oracle Solaris Studio version " << std::hex << __SUNPRO_CC << std::endl;
-
-#else
-  std::cerr << "Unknown compiler!" << std::endl;
-  exit_status = 1;
-
-#endif
+#include "osversion.hpp"
+  std::cout << "Host is " << OSVERSION_STREAM << std::endl;
 
   horizontal_seperator();
 
